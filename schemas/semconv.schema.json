@@ -1,14 +1,22 @@
 {
+	"$id": "https://opentelemetry.io/schemas/v1/semconv.schema.json",
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"type": "object",
+	"title": "OpenTelemetry Semantic Convention Schema",
 	"description": "YAML schema for semantic convention generator, use for example with VS Code.",
 	"additionalProperties": false,
 	"properties": {
 		"groups": {
 			"type": "array",
+			"title": "Groups",
+			"description": "list of semantic conventions",
 			"items": {
+				"title": "Semantic Convention",
+				"description": "A semantic convention",
 				"anyOf": [
 					{
+						"title": "Semantic Convention",
+						"description": "A semantic convention that is neither a span nor an event semantic convention",
 						"allOf": [
 							{
 								"$ref": "#/$defs/SemanticConvention"
@@ -16,6 +24,8 @@
 						]
 					},
 					{
+						"title": "Entity Semantic Convention",
+						"description": "An entity semantic convention",
 						"allOf": [
 							{
 								"$ref": "#/$defs/EntitySemanticConvention"
@@ -23,6 +33,8 @@
 						]
 					},
 					{
+						"title": "Span Semantic Convention",
+						"description": "A span semantic convention",
 						"allOf": [
 							{
 								"$ref": "#/$defs/SpanSemanticConvention"
@@ -30,6 +42,8 @@
 						]
 					},
 					{
+						"title": "Event Semantic Convention",
+						"description": "An event semantic convention",
 						"allOf": [
 							{
 								"$ref": "#/$defs/EventSemanticConvention"
@@ -37,6 +51,8 @@
 						]
 					},
 					{
+						"title": "Metric Semantic Convention",
+						"description": "A metric semantic convention",
 						"allOf": [
 							{
 								"$ref": "#/$defs/MetricSemanticConvention"
@@ -48,22 +64,36 @@
 		},
 		"imports": {
 			"type": "object",
+			"title": "Imports",
+			"description": "import other semantic conventions",
 			"properties": {
 				"metrics": {
 					"type": "array",
+					"title": "Metrics",
+					"description": "list of imported metric semantic convention IDs",
 					"items": {
+						"title": "Metric ID",
+						"description": "ID of the imported metric semantic convention",
 						"type": "string"
 					}
 				},
 				"events": {
 					"type": "array",
+					"title": "Events",
+					"description": "list of imported event semantic convention IDs",
 					"items": {
+						"title": "Event ID",
+						"description": "ID of the imported event semantic convention",
 						"type": "string"
 					}
 				},
 				"entities": {
 					"type": "array",
+					"title": "Entities",
+					"description": "list of imported entity semantic convention IDs",
 					"items": {
+						"title": "Entity ID",
+						"description": "ID of the imported entity semantic convention",
 						"type": "string"
 					}
 				}
@@ -72,26 +102,36 @@
 		}
 	},
 	"$defs": {
+		"title": "OpenTelemetry Semantic Convention Schema Definitions",
+		"description": "YAML schema definitions for semantic convention generator, use for example with VS Code.",
 		"annotations": {
 			"type": "object",
+			"title": "Annotations",
+			"description": "additional annotations for the telemetry object",
 			"additionalProperties": true
 		},
 		"Deprecated": {
+			"title": "Deprecated",
 			"description": "Specifies if an attribute or a signal is deprecated.",
 			"oneOf": [
 				{
 					"type": "object",
+					"title": "Deprecated - Renamed",
 					"description": "The telemetry object containing the deprecated field has been renamed to an existing or a new telemetry object.",
 					"properties": {
 						"reason": {
-							"const": "renamed"
+							"const": "renamed",
+							"title": "Renamed",
+							"description": "The telemetry object containing the deprecated field has been renamed to an existing or a new telemetry object."
 						},
 						"renamed_to": {
 							"type": "string",
+							"title": "Renamed To",
 							"description": "The new name of the telemetry object."
 						},
 						"note:": {
 							"type": "string",
+							"title": "Note",
 							"description": "A note explaining the reason for the deprecation."
 						}
 					},
@@ -103,13 +143,17 @@
 				},
 				{
 					"type": "object",
+					"title": "Deprecated - Obsoleted",
 					"description": "The telemetry object containing the deprecated field has been obsoleted because it no longer exists and has no valid replacement.",
 					"properties": {
 						"reason": {
-							"const": "obsoleted"
+							"const": "obsoleted",
+							"title": "Obsoleted",
+							"description": "The telemetry object containing the deprecated field has been obsoleted because it no longer exists and has no valid replacement."
 						},
 						"note:": {
 							"type": "string",
+							"title": "Note",
 							"description": "A note explaining the reason for the deprecation."
 						}
 					},
@@ -120,13 +164,17 @@
 				},
 				{
 					"type": "object",
+					"title": "Deprecated - Uncategorized",
 					"description": "The telemetry object containing the deprecated field has been deprecated for complex reasons (split, merge, ...) which are currently not precisely defined in the supported deprecation reasons.",
 					"properties": {
 						"reason": {
-							"const": "uncategorized"
+							"const": "uncategorized",
+							"title": "Uncategorized",
+							"description": "The telemetry object containing the deprecated field has been deprecated for complex reasons (split, merge, ...) which are currently not precisely defined in the supported deprecation reasons."
 						},
 						"note:": {
 							"type": "string",
+							"title": "Note",
 							"description": "A note explaining the reason for the deprecation."
 						}
 					},
@@ -138,6 +186,8 @@
 			]
 		},
 		"EntitySemanticConvention": {
+			"title": "Entity",
+			"description": "An entity semantic convention",
 			"allOf": [
 				{
 					"$ref": "#/$defs/SemanticConventionBase"
@@ -149,12 +199,16 @@
 			"properties": {
 				"type": {
 					"type": "string",
-					"const": "entity"
+					"const": "entity",
+					"title": "Type",
+					"description": "An entity semantic convention"
 				}
 			}
 		},
 		"SemanticConventionBase": {
 			"type": "object",
+			"title": "Semantic Convention Base",
+			"description": "Base of a semantic convention",
 			"required": [
 				"id",
 				"brief",
@@ -162,16 +216,28 @@
 			],
 			"allOf": [
 				{
+					"title": "Not Metric or Event",
+					"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'. Therefore, it MUST contain either an 'attributes' or an 'extends' field.",
 					"if": {
+						"title": "Not Metric or Event",
+						"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'.",
 						"properties": {
 							"type": {
+								"title": "Not Metric or Event",
+								"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'.",
 								"not": {
+									"title": "Not Metric or Event",
+									"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'.",
 									"anyOf": [
 										{
-											"const": "metric"
+											"const": "metric",
+											"title": "Type",
+											"description": "A metric semantic convention"
 										},
 										{
-											"const": "event"
+											"const": "event",
+											"title": "Type",
+											"description": "An event semantic convention"
 										}
 									]
 								}
@@ -179,13 +245,19 @@
 						}
 					},
 					"then": {
+						"title": "Not Metric or Event - Then",
+						"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'. Therefore, it MUST contain either an 'attributes' or an 'extends' field.",	
 						"anyOf": [
 							{
+								"title": "Attributes Required",
+								"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'. Therefore, it MUST contain either an 'attributes' or an 'extends' field.",
 								"required": [
 									"attributes"
 								]
 							},
 							{
+								"title": "Extends Required",
+								"description": "The (signal) type of the semantic convention is neither 'metric' nor 'event'. Therefore, it MUST contain either an 'attributes' or an 'extends' field.",
 								"required": [
 									"extends"
 								]
@@ -194,16 +266,26 @@
 					}
 				},
 				{
+					"title": "Not Attribute Group",
+					"description": "The (signal) type of the semantic convention is not 'attribute_group'. Therefore, it MUST contain a 'stability' field.",
 					"if": {
+						"title": "Not Attribute Group",
+						"description": "The (signal) type of the semantic convention is not 'attribute_group'.",
 						"properties": {
 							"type": {
+								"title": "Not Attribute Group",
+								"description": "The (signal) type of the semantic convention is not 'attribute_group'.",
 								"not": {
-									"const": "attribute_group"
+									"const": "attribute_group",
+									"title": "Not Attribute Group",
+									"description": "The (signal) type of the semantic convention is not 'attribute_group'."
 								}
 							}
 						}
 					},
 					"then": {
+						"title": "Not Attribute Group - Then",
+						"description": "The (signal) type of the semantic convention is not 'attribute_group'. Therefore, it MUST contain a 'stability' field.",
 						"required": [
 							"stability"
 						]
@@ -213,6 +295,7 @@
 			"properties": {
 				"id": {
 					"type": "string",
+					"title": "ID",
 					"description": "unique string"
 				},
 				"type": {
@@ -224,18 +307,22 @@
 						"event",
 						"attribute_group"
 					],
+					"title": "Type",
 					"description": "The (signal) type of the semantic convention"
 				},
 				"brief": {
 					"type": "string",
+					"title": "Brief",
 					"description": "a brief description of the semantic convention"
 				},
 				"note": {
 					"type": "string",
+					"title": "Note",
 					"description": "a more elaborate description of the semantic convention. It defaults to an empty string"
 				},
 				"extends": {
 					"type": "string",
+					"title": "Extends",
 					"description": "reference another semantic convention ID. It inherits all attributes from the specified semantic convention."
 				},
 				"attributes": {
@@ -243,16 +330,20 @@
 					"items": {
 						"$ref": "#/$defs/Attribute"
 					},
+					"title": "Attributes",
 					"description": "list of attributes that belong to the semantic convention"
 				},
 				"display_name": {
 					"type": "string",
+					"title": "Display Name",
 					"description": "the display name / title of the semantic convention."
 				},
 				"deprecated": {
 					"$ref": "#/$defs/Deprecated"
 				},
 				"stability": {
+					"title": "Stability Level",
+					"description": "specifies the stability level",
 					"allOf": [
 						{
 							"$ref": "#/$defs/StabilityLevel"
@@ -265,6 +356,8 @@
 			}
 		},
 		"SpanSemanticConvention": {
+			"title": "Span",
+			"description": "A span semantic convention",
 			"allOf": [
 				{
 					"$ref": "#/$defs/SemanticConventionBase"
@@ -277,7 +370,9 @@
 			"properties": {
 				"type": {
 					"type": "string",
-					"const": "span"
+					"const": "span",
+					"title": "Type",
+					"description": "A span semantic convention"
 				},
 				"span_kind": {
 					"type": "string",
@@ -288,17 +383,22 @@
 						"consumer",
 						"internal"
 					],
+					"title": "Span Kind",
 					"description": "specifies the kind of the span."
 				},
 				"entity_associations": {
 					"type": "array",
 					"items": {
 						"$ref": "#/$defs/EntityAssociation"
-					}
+					},
+					"title": "Entity Associations",
+					"description": "list of entity associations."
 				}
 			}
 		},
 		"EventSemanticConvention": {
+			"title": "Event",
+			"description": "An event semantic convention",
 			"allOf": [
 				{
 					"$ref": "#/$defs/SemanticConventionBase"
@@ -307,10 +407,13 @@
 			"properties": {
 				"type": {
 					"type": "string",
-					"const": "event"
+					"const": "event",
+					"title": "Type",
+					"description": "An event semantic convention"
 				},
 				"name": {
 					"type": "string",
+					"title": "Name",
 					"description": "The name of the event."
 				},
 				"body": {
@@ -320,11 +423,15 @@
 					"type": "array",
 					"items": {
 						"$ref": "#/$defs/EntityAssociation"
-					}
+					},
+					"title": "Entity Associations",
+					"description": "list of entity associations."
 				}
 			},
 			"anyOf": [
 				{
+					"title": "General Requirement",
+					"description": "The event semantic convention MUST contain a 'name' field.",
 					"required": [
 						"name"
 					]
@@ -333,6 +440,8 @@
 		},
 		"AnyValueSemanticConvention": {
 			"type": "object",
+			"title": "Any Value",
+			"description": "An any value of a semantic convention",
 			"required": [
 				"type",
 				"id",
@@ -342,6 +451,7 @@
 			"properties": {
 				"id": {
 					"type": "string",
+					"title": "ID",
 					"description": "unique string"
 				},
 				"type": {
@@ -349,13 +459,17 @@
 				},
 				"brief": {
 					"type": "string",
+					"title": "Brief",
 					"description": "a brief description of the value."
 				},
 				"note": {
 					"type": "string",
+					"title": "Note",
 					"description": "a more elaborate description of the value. It defaults to an empty string."
 				},
 				"stability": {
+					"title": "Stability Level",
+					"description": "specifies the stability level",
 					"allOf": [
 						{
 							"$ref": "#/$defs/StabilityLevel"
@@ -363,36 +477,51 @@
 					]
 				},
 				"requirement_level": {
+					"title": "Requirement Level",
 					"description": "specifies the any value requirement level. Can be 'required', 'conditionally_required', 'recommended', or 'opt_in'. When omitted, the value is 'recommended'. When set to 'conditionally_required', the string provided MUST specify the conditions under which the value is required.",
 					"oneOf": [
 						{
+							"title": "Required",
+							"description": "The any value is required.",
 							"const": "required"
 						},
 						{
 							"type": "object",
+							"title": "Conditionally Required",
+							"description": "The any value is conditionally required. The string provided MUST specify the conditions under which the value is required.",
 							"additionalProperties": false,
 							"required": [
 								"conditionally_required"
 							],
 							"properties": {
 								"conditionally_required": {
+									"title": "Condition",
+									"description": "the conditions under which the value is required.",
 									"type": "string"
 								}
 							}
 						},
 						{
+							"title": "Recommended",
+							"description": "The any value is recommended.",
 							"oneOf": [
 								{
+									"title": "Recommended",
+									"description": "The any value is recommended.",
 									"const": "recommended"
 								},
 								{
 									"type": "object",
+									"title": "Recommended with Note",
+									"description": "The any value is recommended. The string provided MUST specify additional notes about the recommendation.",
 									"additionalProperties": false,
 									"required": [
 										"recommended"
 									],
 									"properties": {
 										"recommended": {
+											"title": "Condition",
+											"description": "the conditions under which the value is required.",
 											"type": "string"
 										}
 									}
@@ -400,18 +529,26 @@
 							]
 						},
 						{
+							"title": "Opt-In",
+							"description": "The any value is opt-in.",
 							"oneOf": [
 								{
+									"title": "Opt-In",
+									"description": "The any value is opt-in.",
 									"const": "opt_in"
 								},
 								{
 									"type": "object",
+									"title": "Opt-In with Note",
+									"description": "The any value is opt-in. The string provided MUST specify additional notes about the opt-in.",
 									"additionalProperties": false,
 									"required": [
 										"opt_in"
 									],
 									"properties": {
 										"opt_in": {
+											"title": "Condition",
+											"description": "the conditions under which the value is required.",
 											"type": "string"
 										}
 									}
@@ -427,11 +564,14 @@
 						},
 						{
 							"type": "array",
+							"title": "Value Array Type",
+							"description": "array of value types",
 							"items": {
 								"$ref": "#/$defs/ValueType"
 							}
 						}
 					],
+					"title": "Examples",
 					"description": "sequence/dictionary of example values. They are optional for boolean, int, double, and enum attributes. Example values must be of the same type as the value. If only a single example is provided, it can directly be reported without encapsulating it into a sequence/dictionary."
 				},
 				"deprecated": {
@@ -439,6 +579,7 @@
 				},
 				"fields": {
 					"type": "array",
+					"title": "Fields",
 					"description": "when the type is map, this identifies the child (nested) any values associated with the map.",
 					"items": {
 						"$ref": "#/$defs/AnyValueSemanticConvention"
@@ -446,9 +587,12 @@
 				},
 				"members": {
 					"type": "array",
+					"title": "Members",
 					"description": "when the type is enum, this identifies the enum members.",
 					"items": {
 						"type": "object",
+						"title": "Enum Member",
+						"description": "An enum member of an attribute",
 						"additionalProperties": false,
 						"required": [
 							"id",
@@ -458,6 +602,7 @@
 						"properties": {
 							"id": {
 								"type": "string",
+								"title": "ID",
 								"description": "string unique"
 							},
 							"value": {
@@ -465,20 +610,25 @@
 									"string",
 									"number"
 								],
+								"title": "Value",
 								"description": "string or number, value of the enum entry."
 							},
 							"brief": {
 								"type": "string",
+								"title": "Brief",
 								"description": "brief description of the enum entry value. It defaults to the value of ID."
 							},
 							"note": {
 								"type": "string",
+								"title": "Note",
 								"description": "longer description. It defaults to an empty string."
 							},
 							"deprecated": {
 								"$ref": "#/$defs/Deprecated"
 							},
 							"stability": {
+								"title": "Stability Level",
+								"description": "specifies the stability level",
 								"allOf": [
 									{
 										"$ref": "#/$defs/StabilityLevel"
@@ -491,6 +641,8 @@
 			}
 		},
 		"MetricSemanticConvention": {
+			"title": "Metric",
+			"description": "A metric semantic convention",
 			"allOf": [
 				{
 					"$ref": "#/$defs/SemanticConventionBase"
@@ -505,6 +657,7 @@
 			"properties": {
 				"instrument": {
 					"type": "string",
+					"title": "Instrument",
 					"description": "The instrument used to record the metric.",
 					"enum": [
 						"counter",
@@ -515,25 +668,32 @@
 				},
 				"metric_name": {
 					"type": "string",
+					"title": "Metric Name",
 					"description": "The name of the metric."
 				},
 				"type": {
 					"type": "string",
+					"title": "Type",
 					"const": "metric"
 				},
 				"unit": {
 					"type": "string",
+					"title": "Unit",
 					"description": "The unit in which the metric is measured in."
 				},
 				"entity_associations": {
 					"type": "array",
 					"items": {
 						"$ref": "#/$defs/EntityAssociation"
-					}
+					},
+					"title": "Entity Associations",
+					"description": "list of entity associations."
 				}
 			}
 		},
 		"SemanticConvention": {
+			"title": "Semantic Convention",
+			"description": "A semantic convention that is neither a span nor an event semantic convention",
 			"allOf": [
 				{
 					"$ref": "#/$defs/SemanticConventionBase"
@@ -545,7 +705,11 @@
 			"properties": {
 				"type": {
 					"type": "string",
+					"title": "Type",
+					"description": "The (signal) type of the semantic convention",
 					"not": {
+						"title": "Not Span, or Event",
+						"description": "The (signal) type of the semantic convention cannot be 'span', or 'event' for this definition.",
 						"enum": [
 							"span",
 							"event"
@@ -556,12 +720,18 @@
 		},
 		"AttributeEnumType": {
 			"type": "object",
+			"title": "Attribute Enum Type",
+			"description": "specifies an enumerated type for an attribute",
 			"additionalProperties": false,
 			"properties": {
 				"members": {
 					"type": "array",
+					"title": "Members",
+					"description": "list of enum members.",
 					"items": {
 						"type": "object",
+						"title": "Enum Member",
+						"description": "An enum member of an attribute",
 						"additionalProperties": false,
 						"required": [
 							"id",
@@ -571,6 +741,7 @@
 						"properties": {
 							"id": {
 								"type": "string",
+								"title": "ID",
 								"description": "string unique"
 							},
 							"value": {
@@ -578,20 +749,25 @@
 									"string",
 									"number"
 								],
+								"title": "Value",
 								"description": "string or number, value of the enum entry."
 							},
 							"brief": {
 								"type": "string",
+								"title": "Brief",
 								"description": "brief description of the enum entry value. It defaults to the value of ID."
 							},
 							"note": {
 								"type": "string",
+								"title": "Note",
 								"description": "longer description. It defaults to an empty string."
 							},
 							"deprecated": {
 								"$ref": "#/$defs/Deprecated"
 							},
 							"stability": {
+								"title": "Stability Level",
+								"description": "specifies the stability level",
 								"allOf": [
 									{
 										"$ref": "#/$defs/StabilityLevel"
@@ -607,6 +783,8 @@
 			}
 		},
 		"AttributeFullSpec": {
+			"title": "Attribute Full Specification",
+			"description": "Full specification of an attribute",
 			"required": [
 				"id",
 				"type",
@@ -615,12 +793,15 @@
 			"properties": {
 				"id": {
 					"type": "string",
+					"title": "ID",
 					"description": "unique string"
 				},
 				"type": {
 					"$ref": "#/$defs/AttributeType"
 				},
 				"stability": {
+					"title": "Stability Level",
+					"description": "specifies the stability level",
 					"allOf": [
 						{
 							"$ref": "#/$defs/StabilityLevel"
@@ -631,32 +812,44 @@
 		},
 		"AttributeReference": {
 			"type": "object",
+			"title": "Attribute Reference",
+			"description": "Reference to an existing attribute",
 			"required": [
 				"ref"
 			],
 			"properties": {
 				"ref": {
 					"type": "string",
+					"title": "Reference",
 					"description": "reference an existing attribute"
 				},
 				"tag": {
 					"type": "string",
+					"title": "Tag",
 					"description": "associates a tag to the attribute"
 				}
 			}
 		},
 		"ValueType": {
+			"title": "Value Type",
+			"description": "specifies the supported value types.",
 			"oneOf": [
 				{
 					"type": [
 						"string",
 						"boolean",
 						"number"
-					]
+					],
+					"title": "Value Type",
+					"description": "literal denoting the type"
 				},
 				{
 					"type": "array",
+					"title": "Value Array Type",
+					"description": "array of value types",
 					"items": {
+						"title": "Value Type",
+						"description": "specifies the supported value types.",
 						"type": [
 							"boolean",
 							"number",
@@ -667,6 +860,7 @@
 			]
 		},
 		"StabilityLevel": {
+			"title": "Stability Level",
 			"description": "specifies the stability level",
 			"type": "string",
 			"enum": [
@@ -679,40 +873,59 @@
 		},
 		"Attribute": {
 			"type": "object",
+			"title": "Attribute",
+			"description": "An attribute of a semantic convention",
 			"allOf": [
 				{
+					"title": "Attribute Full Specification",
+					"description": "Full specification of an attribute",
 					"properties": {
 						"requirement_level": {
+							"title": "Requirement Level",
 							"description": "specifies the attribute requirement level. Can be 'required', 'conditionally_required', 'recommended', or 'opt_in'. When omitted, the attribute is 'recommended'. When set to 'conditionally_required', the string provided MUST specify the conditions under which the attribute is required.",
 							"oneOf": [
 								{
-									"const": "required"
+									"const": "required",
+									"title": "Required",
+									"description": "The attribute is required."
 								},
 								{
 									"type": "object",
+									"title": "Conditionally Required",
+									"description": "The attribute is conditionally required. The string provided MUST specify the conditions under which the attribute is required.",
 									"additionalProperties": false,
 									"required": [
 										"conditionally_required"
 									],
 									"properties": {
 										"conditionally_required": {
-											"type": "string"
+											"type": "string",
+											"title": "Condition",
+											"description": "the conditions under which the attribute is required."
 										}
 									}
 								},
 								{
+									"title": "Recommended",
+									"description": "The attribute is recommended.",
 									"oneOf": [
 										{
-											"const": "recommended"
+											"const": "recommended",
+											"title": "Recommended",
+											"description": "The attribute is recommended."
 										},
 										{
 											"type": "object",
+											"title": "Recommended with Note",
+											"description": "The attribute is recommended. The string provided MUST specify additional notes about the recommendation.",
 											"additionalProperties": false,
 											"required": [
 												"recommended"
 											],
 											"properties": {
 												"recommended": {
+													"title": "Recommended Note",
+													"description": "additional notes about the recommendation",
 													"type": "string"
 												}
 											}
@@ -720,21 +933,26 @@
 									]
 								},
 								{
-									"const": "opt_in"
+									"const": "opt_in",
+									"title": "Opt-In",
+									"description": "The attribute is opt-in."
 								}
 							]
 						},
 						"sampling_relevant": {
 							"type": "boolean",
+							"title": "Sampling Relevant",
 							"description": "specifies if it is relevant for sampling. It defaults to false.",
 							"default": false
 						},
 						"brief": {
 							"type": "string",
+							"title": "Brief",
 							"description": "brief description of the attribute."
 						},
 						"note": {
 							"type": "string",
+							"title": "Note",
 							"description": "additional notes to the attribute. It defaults to an empty string."
 						},
 						"examples": {
@@ -744,22 +962,29 @@
 								},
 								{
 									"type": "array",
+									"title": "Value Array Type",
+									"description": "array of value types",
 									"items": {
 										"$ref": "#/$defs/ValueType"
 									}
 								}
 							],
+							"title": "Examples",
 							"description": "sequence/dictionary of example values for the attribute. They are optional for boolean, int, double, and enum attributes. Example values must be of the same type of the attribute. If only a single example is provided, it can directly be reported without encapsulating it into a sequence/dictionary."
 						},
 						"annotations": {
 							"$ref": "#/$defs/annotations"
 						},
 						"role": {
+							"title": "Attribute Role",
+							"description": "specified the role of an attribute (e.g. descriptive or identifying).",
 							"#ref": "#/$defs/AttributeRole"
 						}
 					}
 				},
 				{
+					"title": "Attribute Specification or Reference",
+					"description": "Either a full specification of an attribute or a reference to an existing attribute",
 					"oneOf": [
 						{
 							"$ref": "#/$defs/AttributeFullSpec"
@@ -772,10 +997,13 @@
 			]
 		},
 		"AttributeRole": {
+			"title": "Attribute Role",
 			"description": "specified the role of an attribute (e.g. descriptive or identifying).",
 			"oneOf": [
 				{
 					"type": "string",
+					"title": "Attribute Role",
+					"description": "literal denoting the role",
 					"enum": [
 						"identifying",
 						"descriptive"
@@ -784,6 +1012,7 @@
 			]
 		},
 		"AttributeType": {
+			"title": "Attribute Type",
 			"description": "specifies the supported attribute types.",
 			"oneOf": [
 				{
@@ -808,6 +1037,7 @@
 						"template[double[]]",
 						"template[boolean[]]"
 					],
+					"title": "Attribute Type",
 					"description": "literal denoting the type"
 				},
 				{
@@ -816,6 +1046,7 @@
 			]
 		},
 		"AnyValueType": {
+			"title": "Any Value Type",
 			"description": "specifies the supported any value types.",
 			"oneOf": [
 				{
@@ -834,13 +1065,17 @@
 						"enum",
 						"undefined"
 					],
+					"title": "Any Value Type",
 					"description": "literal denoting the type"
 				}
 			]
 		},
 		"EntityAssociation": {
 			"type": "array",
+			"title": "Entity Association",
 			"items": {
+				"title": "Entity ID",
+				"description": "ID of the associated entity",
 				"type": "string"
 			},
 			"description": "list of entity associations."
