@@ -2,29 +2,39 @@ rm -r docs/specs/semconv-v1
 mkdir docs/specs/semconv-v1
 jsonschema2md -d schemas -o docs/specs/semconv-v1 -e schema.json -x -
 
-files="docs/specs/semconv-v1/*.md"
 regex=".\/(semconv-(opentelemetry-semantic-convention-schema-definitions|properties)-((\w+)-(.+).md))"
-regexR=".\/(semconv-(opentelemetry-semantic-convention-schema-definitions|properties)-(\w+).md)"
-for f in $files    # unquoted in order to allow the glob to expand
+regexP=".\/(semconv-(opentelemetry-semantic-convention-schema-definitions|properties)-((.*?)-properties(.+).md))"
+regexG=".\/(semconv-(opentelemetry-semantic-convention-schema-definitions|properties)-"
+
+#defines list of groups to create
+my_array=("value-type" "stability-level" "span" "semantic-convention-base" "semantic-convention" "metric" "imports" "groups" "event" "entity-association" "entity" "deprecated" "annotations" "attribute-type" "attribute-role" "attribute-reference" "attribute-full-specification" "attribute-enum-type" "attribute" "any-value-type" "any-value")
+
+for item in "${my_array[@]}"; 
 do
-    group=""
-    file=""
-    if [[ $f =~ $regex ]]
-    then
-        group=${BASH_REMATCH[4]}
-        file=${BASH_REMATCH[3]}
-    elif [[ $f =~ $regexR ]]
-    then
-        group=${BASH_REMATCH[3]}
-        file="README.md"
-    else
-        echo "$f doesn't match" >&2 # this could get noisy if there are a lot of non-matching files
-    fi
-    if [ "$group" != "" ] && [ "$file" != "" ]
-    then
-        mkdir -p "docs/specs/semconv-v1/${group}"
-        mv "$f" "docs/specs/semconv-v1/${group}/${file}"
-    fi
+
+    files="docs/specs/semconv-v1/*${item}*.md"
+
+    for f in $files    # unquoted in order to allow the glob to expand
+    do
+        group=""
+        file=""
+        regexT="${regexG}(${item}-(.*\.md)))"
+        regexR="${regexG}(${item}\.md))"
+        if [[ $f =~ $regexR ]]
+        then
+            group=$item
+            file="README.md"
+        elif [[ $f =~ $regexT ]]
+        then
+            group=$item
+            file=${BASH_REMATCH[4]}
+        fi
+        if [ "$group" != "" ] && [ "$file" != "" ]
+        then
+            mkdir -p "docs/specs/semconv-v1/${group}"
+            mv "$f" "docs/specs/semconv-v1/${group}/${file}"
+        fi
+    done
 done
 
 sed -i -E 's/\((.\/)?(semconv-(opentelemetry-semantic-convention-schema-definitions|properties)-(\w+).md)/\(\4\/README.md/g' docs/specs/semconv-v1/*.md
